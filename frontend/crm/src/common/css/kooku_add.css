@@ -1,0 +1,6 @@
+nav li.router-link-exact-active .menu{
+    color: white;
+}
+nav li.router-link-exact-active .menu_icon {
+    filter: brightness(1.8);
+}
