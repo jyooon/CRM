@@ -2,7 +2,7 @@
     <li>
         <div class="memo">
             <div class="shortcut">
-                <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>{{(id+1)%10}}</span></div>
+                <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>{{(id)%10}}</span></div>
             </div>
             <textarea
                 class="memo_txt"
@@ -32,7 +32,13 @@ export default {
       this.$store.commit('updateMessage', {
         index: this.id,
         text: this.message
-      })
+      }, this.postToServer())
+    },
+    postToServer (id) {
+      if (this.id === 10) {
+        const json = JSON.stringify(this.$store.getters.getMessages)
+        this.$store.dispatch('postCommonMessage', JSON.parse(json))
+      }
     }
   },
   mounted () {

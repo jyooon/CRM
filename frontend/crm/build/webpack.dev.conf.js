@@ -42,6 +42,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    proxy: {
+      '/': {
+        target: 'http://localhost:8000',
+        // ws: false,
+        // changeOrigin: true
+      }
     }
   },
   plugins: [

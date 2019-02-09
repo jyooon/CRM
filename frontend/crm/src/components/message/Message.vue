@@ -56,17 +56,11 @@ export default {
       BUS.$emit('store')
     },
     store_print: function (event) {
-      console.log(this.$store.getters.getMessages[0].text)
-      console.log(this.$store.getters.getMessages[1].text)
-      console.log(this.$store.getters.getMessages[2].text)
-      console.log(this.$store.getters.getMessages[3].text)
-      console.log(this.$store.getters.getMessages[4].text)
-      console.log(this.$store.getters.getMessages[5].text)
-      console.log(this.$store.getters.getMessages[6].text)
-      console.log(this.$store.getters.getMessages[7].text)
-      console.log(this.$store.getters.getMessages[8].text)
-      console.log(this.$store.getters.getMessages[9].text)
+      console.log(JSON.parse(JSON.stringify(this.$store.getters)))
     }
+  },
+  created () {
+    this.$store.dispatch('getCommonMessage')
   }
 }
 </script>
