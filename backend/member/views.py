@@ -44,7 +44,7 @@ def getMembers(request):
         response["Access-Control-Max-Age"] = "1000"
         response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
         return response
-
+@csrf_exempt
 def addMember(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -54,8 +54,8 @@ def addMember(request):
         name = data['data']['name']
         
         n1 = User.objects.get(id=userID)
-        Profile.objects.create(user=n1, user_name=name)
-
+        print(Profile.objects.create(user=n1, user_name=name))
+    
         age = data['data']['age']
         sex = data['data']['sex']
         address = data['data']['address']
@@ -103,15 +103,21 @@ def addMember(request):
         response["Access-Control-Max-Age"] = "1000"
         response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
         return response
-
+@csrf_exempt
 def deleteMember(request):
     if request.method == 'DELETE':
-
-        # id = json.loads(request.body)['id']
+        data = json.loads(request.body)
+        id = data['id']
+        memberID = data['memberID']
+        print(id, memberID)
+        p1 = Info.objects.get(id=memberID)
+        p2 = Profile.objects.get(id=memberID)
+        print((model_to_dict(p1)))
+        print(p2)
         # Info.objects.filter(id=id).delete()
         response = HttpResponse('delete success')
         response["Access-Control-Allow-Origin"] = "*"
-        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Methods"] = "GET, POST, DELETE, OPTIONS"
         response["Access-Control-Max-Age"] = "1000"
         response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
         return response

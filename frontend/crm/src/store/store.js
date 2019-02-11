@@ -185,6 +185,7 @@ export const store = new Vuex.Store({
         })
         .then((data) => {
           context.commit('setMembers', data.data)
+          console.log(data.data)
         })
     },
     addMember: ({ state }) => {
@@ -195,6 +196,16 @@ export const store = new Vuex.Store({
         .post('/member/add', sendJson)
         .then(data => {
           console.log(data.data)
+        })
+    },
+    deleteMember: (context, payload) => {
+      return axios
+        .delete('/member/delete', {
+          headers: {'Content-Type': 'application/json'},
+          data: {
+            id: sessionStorage.getItem('id'),
+            memberID: payload
+          }
         })
     }
   }
