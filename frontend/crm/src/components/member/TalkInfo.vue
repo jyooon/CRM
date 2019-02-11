@@ -4,20 +4,21 @@
 
         <div class="input_title">톡 종류</div>
         <div class="input_content">
-            <select v-model="type">
+            <select v-model="getTalkInputForm.talk_type">
                 <option value="" disable selected>톡 종류를 선택해 주세요.</option>
-                <option>텔레그램</option>
-                <option>카카오톡</option>
-                <option>라인</option>
+                <option value="telegram">텔레그램</option>
+                <option value="kakao">카카오톡</option>
+                <option value="line">라인</option>
+                <option value="band">밴드</option>
             </select>
         </div>
 
         <div class="input_title">닉네임</div>
-        <div class="input_content"><input type="text" placeholder="닉네임을 입력해 주세요." v-model="talk_name"></div>
+        <div class="input_content"><input type="text" placeholder="닉네임을 입력해 주세요." v-model="getTalkInputForm.talk_name"></div>
 
         <div class="input_title">나이</div>
         <div class="input_content">
-            <select v-model="talk_age">
+            <select v-model="getTalkInputForm.talk_age">
                 <option value=0 disable selected>나이를 선택해 주세요</option>
                 <option
                     v-for="n in (10 , 50)"
@@ -28,7 +29,7 @@
         </div>
 
         <div class="input_title"> Device ID</div>
-        <div class="input_content"><input type="text" placeholder="Device ID를 입력해 주세요." v-model="deviceID"></div>
+        <div class="input_content"><input type="text" placeholder="Device ID를 입력해 주세요." v-model="getTalkInputForm.deviceID"></div>
             <button
             class="btn purple rounded"
             @click="btnCancle">
@@ -43,39 +44,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TalkInfo',
-  data () {
-    return {
-      type: '',
-      talk_name: '',
-      talk_age: '',
-      deviceID: ''
-    }
+  computed: {
+    ...mapGetters([
+      'getTalkInputForm'
+    ])
   },
   methods: {
     btnCancle () {
       this.$store.commit('cancleTalkForm')
     },
     btnStore () {
-      console.log(this.type, this.talk_name, this.talk_age, this.deviceID)
-      if (this.talk_name === '' || this.talk_age === '' || this.deviceID === '') {
+      const talkInput = this.getTalkInputForm
+      if (talkInput.talk_type === '' || talkInput.talk_name === '' || talkInput.talk_age === '' || talkInput.deviceID === '') {
         return alert('빈칸을 모두 채워주세요!')
       }
-      const item = {deviceID: this.deviceID, talk_name: this.talk_name, talk_age: this.talk_age * 1}
-      if (this.type === '카카오톡') {
-        this.$store.commit('talkInfoKakao', item)
-        this.$store.commit('cancleTalkForm')
-      } else if (this.type === '텔레그램') {
-        this.$store.commit('talkInfoTelegram', item)
-        this.$store.commit('cancleTalkForm')
-      } else if (this.type === '라인') {
-        this.$store.commit('talkInfoLine', item)
-        this.$store.commit('cancleTalkForm')
-      } else {
-        alert('톡 종류를 선택해 주세요')
-      }
+      this.$store.commit('addTalk')
+      // if (talkInput.id === undefined) {
+      // } else {
+      //   this.$store.commit('talkUpdated', talkInput)
+      // }
     }
   }
 }

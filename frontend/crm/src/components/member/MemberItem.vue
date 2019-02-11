@@ -87,7 +87,9 @@ export default {
     handleDelete () {
       if (confirm('진심? 삭제?')) {
         // this.$store.commit('deleteMember', this.item.id)
-        this.$store.dispatch('deleteMember', this.index)
+        this.$store.dispatch('deleteMember', this.index).then(() => {
+          this.$store.dispatch('getMembers')
+        })
       }
     }
   }

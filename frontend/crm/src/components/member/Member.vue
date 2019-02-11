@@ -69,7 +69,8 @@ export default {
       'getMemberFormState',
       'getTalkFormState',
       'getMyMessageState',
-      'getReviseState'
+      'getReviseState',
+      'getMemberInputForm'
     ])
   },
   components: {
@@ -86,7 +87,16 @@ export default {
       this.$store.commit('formCancle')
     },
     btnStore () {
+      const input = this.getMemberInputForm
+      if (input.name === '' || input.age === 0 || input.sex === '' || input.telegramID === '' || input.address === '') {
+        return alert('빈칸을 채우세요')
+      }
       if (this.getReviseState.state) {
+        this.$store.dispatch('updateInfo')
+          .then(() => {
+            this.$store.commit('formCancle')
+            this.$store.dispatch('getMembers')
+          })
       } else {
         this.$store.dispatch('addMember')
           .then(() => {
@@ -97,7 +107,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getMembers')
+    this.$store.dispatch('getMembers').then(() => console.log(this.getMembers))
   }
 }
 </script>

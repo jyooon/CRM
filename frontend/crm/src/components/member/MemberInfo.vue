@@ -35,13 +35,13 @@
             </div>
 
             <div class="input_title">텔레그램 ID <span>(필수)</span></div>
-            <div class="input_content"><input type="text" placeholder="텔레그램 ID를 입력해 주세요." v-model="getMemberInputForm.telegram.deviceID" readonly></div>
+            <div class="input_content"><input type="text" placeholder="텔레그램 ID를 입력해 주세요." v-model="getMemberInputForm.telegramID" ></div>
 
             <div class="input_title">카카오톡 ID</div>
-            <div class="input_content"><input type="text" placeholder="카카오톡 ID를 입력해 주세요." v-model="getMemberInputForm.kakao.deviceID" readonly></div>
+            <div class="input_content"><input type="text" placeholder="카카오톡 ID를 입력해 주세요." v-model="getMemberInputForm.kakaoID" ></div>
 
             <div class="input_title">라인 ID</div>
-            <div class="input_content"><input type="text" placeholder="라인 ID를 입력해 주세요." v-model="getMemberInputForm.line.deviceID" readonly></div>
+            <div class="input_content"><input type="text" placeholder="라인 ID를 입력해 주세요." v-model="getMemberInputForm.lineID" ></div>
 
             <div class="input_title">위치 <span>(필수)</span></div>
             <div class="input_content"><input type="text" placeholder="위치를 설정해 주세요." @click="handleAddress" v-model="getMemberInputForm.address" readonly></div>

@@ -12,7 +12,8 @@ export const store = new Vuex.Store({
     reviseState: {state: false, id: ''},
     myMessageState: false,
     commonMessages: [],
-    memberInputForm: {name: '', age: 0, sex: '', address: '', latitude: 0, hardness: 0, telegram: '', kakao: '', line: ''},
+    memberInputForm: {name: '', age: 0, sex: '', telegramID: '', kakaoID: '', lineID: '', address: '', latitude: 0, hardness: 0, talkList: []},
+    talkInputForm: {talk_type: '', talk_name: '', talk_age: 0, deviceID: ''},
     members: [
       {
         id: 100,
@@ -22,9 +23,11 @@ export const store = new Vuex.Store({
         address: '서울특별시 강남구 머머동',
         latitude: 12.9,
         hardness: 14.9,
-        telegram: {deviceID: 'tele', talk_name: '민혁2', talk_age: 25},
-        kakao: {deviceID: 'kakao', talk_name: '민혁2', talk_age: 25},
-        line: {deviceID: 'line', talk_name: '민혁2', talk_age: 25},
+        talkList: [
+          {id: 0, talk_type: 'telegram', deviceID: 'tele', talk_name: '민혁2', talk_age: 25},
+          {id: 1, talk_type: 'kakao', deviceID: 'kakao', talk_name: '민혁2', talk_age: 25},
+          {id: 2, talk_type: 'line', deviceID: 'line', talk_name: '민혁2', talk_age: 25}
+        ],
         state: false
       },
       {
@@ -35,9 +38,10 @@ export const store = new Vuex.Store({
         address: '대구광역시 달성구 김치동',
         latitude: 12.9,
         hardness: 14.9,
-        telegram: {deviceID: 'tele', talk_name: '2리', talk_age: 25},
-        kakao: '',
-        line: {deviceID: 'line', talk_name: '두2', talk_age: 25},
+        talkList: [
+          {id: 3, talk_type: 'telegram', deviceID: 'tele', talk_name: '2리', talk_age: 25},
+          {id: 4, talk_type: 'line', deviceID: 'line', talk_name: '두2', talk_age: 25}
+        ],
         state: false
       },
       {
@@ -48,9 +52,10 @@ export const store = new Vuex.Store({
         address: '부산광역시 금정구 장전동',
         latitude: 12.9,
         hardness: 14.9,
-        telegram: {deviceID: 'tele', talk_name: '지은2', talk_age: 25},
-        kakao: {deviceID: 'kakao', talk_name: '나우', talk_age: 25},
-        line: '',
+        talkList: [
+          {id: 5, talk_type: 'telegram', deviceID: 'tele', talk_name: '지은2', talk_age: 25},
+          {id: 6, talk_type: 'kakao', deviceID: 'kakao', talk_name: '나우', talk_age: 25}
+        ],
         state: false
       }
     ]
@@ -86,6 +91,12 @@ export const store = new Vuex.Store({
     },
     getLoginID: (state) => {
       return state.id
+    },
+    getTalkList: (state) => {
+      return state.memberInputForm.talkList
+    },
+    getTalkInputForm: (state) => {
+      return state.talkInputForm
     }
   },
   mutations: {
@@ -116,6 +127,7 @@ export const store = new Vuex.Store({
     },
     cancleTalkForm: (state) => {
       state.talkFormState = false
+      state.talkInputForm = {talk_type: '', talk_name: '', talk_age: 0, deviceID: ''}
     },
     reviseState: (state, payload) => {
       state.reviseState.state = true
@@ -127,7 +139,7 @@ export const store = new Vuex.Store({
       state.talkFormState = false
       state.reviseState.state = false
       state.reviseState.id = ''
-      state.memberInputForm = {name: '', age: 0, sex: '', address: '', latitude: 0, hardness: 0, telegram: '', kakao: '', line: ''}
+      state.memberInputForm = {name: '', age: 0, sex: '', telegramID: '', kakaoID: '', lineID: '', address: '', latitude: 0, hardness: 0, talkList: []}
     },
     deleteMember: (state, payload) => {
       state.members.some((member, index) => {
@@ -140,17 +152,26 @@ export const store = new Vuex.Store({
     cancleMyMessage: (state) => {
       state.myMessageState = false
     },
-    talkInfoKakao: (state, payload) => {
-      state.memberInputForm.kakao = payload
-    },
-    talkInfoTelegram: (state, payload) => {
-      state.memberInputForm.telegram = payload
-    },
-    talkInfoLine: (state, payload) => {
-      state.memberInputForm.line = payload
-    },
     setMembers: (state, payload) => {
       state.members = payload
+    },
+    addTalk: (state) => {
+      state.memberInputForm.talkList.push(state.talkInputForm)
+      state.talkFormState = false
+      state.talkInputForm = {talk_type: '', talk_name: '', talk_age: 0, deviceID: ''}
+    },
+    talkRevise: (state, payload) => {
+      state.talkFormState = true
+      state.talkInputForm = payload
+    },
+    talkUpdated: (state, payload) => {
+      state.memberInputForm.talkList.forEach(i => {
+        if (i.id === payload.id) {
+          return (i = payload)
+        }
+      })
+      state.talkFormState = false
+      state.talkInputForm = {talk_type: '', talk_name: '', talk_age: 0, deviceID: ''}
     }
   },
   actions: {
@@ -184,8 +205,9 @@ export const store = new Vuex.Store({
           params: {id: sessionStorage.getItem('id')}
         })
         .then((data) => {
-          context.commit('setMembers', data.data)
-          console.log(data.data)
+          data.data.forEach(item => {
+            item.state = false
+          }, context.commit('setMembers', data.data))
         })
     },
     addMember: ({ state }) => {
@@ -206,6 +228,13 @@ export const store = new Vuex.Store({
             id: sessionStorage.getItem('id'),
             memberID: payload
           }
+        })
+    },
+    updateInfo: ({ state }) => {
+      return axios
+        .put('/member/update', {
+          id: sessionStorage.getItem('id'),
+          data: state.memberInputForm
         })
     }
   }
