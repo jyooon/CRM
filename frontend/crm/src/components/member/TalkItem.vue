@@ -5,7 +5,9 @@
             <img :src=talkImage>
         </div>
         <div class="sns_nick"><span>{{talkType}}</span>
-        <span>{{talk_name}}</span></div>
+        <span>{{talk_name}}</span>
+        <span class='revise'>{{reviseState}}</span>
+        </div>
         <div class="icon_next">
             <img src="../../images/icon_next.png">
         </div>
@@ -34,6 +36,12 @@ export default {
     }
   },
   computed: {
+    reviseState () {
+      let reviseID = this.getTalkInputForm.id
+      console.log(reviseID)
+      if (reviseID === undefined) return ''
+      if (reviseID === this.id) return '수정중'
+    },
     talkType () {
       const talkType = this.talk_type
       if (talkType === 'telegram') return '텔레그램'
@@ -51,12 +59,13 @@ export default {
     ...mapGetters([
       'getMyMessageState',
       'getReviseState',
-      'getMemberInputForm'
+      'getMemberInputForm',
+      'getTalkInputForm'
     ])
   },
   methods: {
     revise () {
-    //   this.$store.commit('talkRevise', this.item)
+      // this.$store.commit('talkRevise', this.item)
     }
   }
 }

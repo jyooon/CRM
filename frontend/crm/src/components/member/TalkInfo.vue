@@ -62,7 +62,11 @@ export default {
       if (talkInput.talk_type === '' || talkInput.talk_name === '' || talkInput.talk_age === '' || talkInput.deviceID === '') {
         return alert('빈칸을 모두 채워주세요!')
       }
-      this.$store.commit('addTalk')
+      if (talkInput.id === undefined) {
+        this.$store.commit('addTalk')
+      } else {
+        this.$store.commit('talkUpdated', talkInput)
+      }
       // if (talkInput.id === undefined) {
       // } else {
       //   this.$store.commit('talkUpdated', talkInput)
