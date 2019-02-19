@@ -111,37 +111,43 @@ def updateInfo(request):
 
         userID = data['id']
         name = data['data']['name']
+        id = data['data']['id']
+        p1 = Profile.objects.get(user=userID, id=id)
+        p1.user_name = name
+        p1.save()
+
+        info = Info.objects.get(id=id)
         
-        # n1 = User.objects.get(id=userID)
-        # p1 = Profile.objects.update(user=n1, user_name=name)
-        # age = data['data']['age']
-        # sex = data['data']['sex']
-        # telegramID = data['data']['telegramID']
-        # kakaoID = data['data']['kakaoID']
-        # lineID = data['data']['lineID']
-        # address = data['data']['address']
-        # latitude = data['data']['latitude']
-        # hardness = data['data']['hardness']
-        # id = Profile.objects.filter(id=p1.id).get().id
-        # Info.objects.update(
-        #     name=Profile.objects.get(id=id),
-        #     age=age,
-        #     sex=sex,
-        #     telegramID=telegramID,
-        #     kakaoID=kakaoID,
-        #     lineID=lineID,
-        #     address=address,
-        #     latitude=latitude,
-        #     hardness=hardness)
+        info.age = data['data']['age']
+        info.sex = data['data']['sex']
+        info.telegramID = data['data']['telegramID']
+        info.kakaoID = data['data']['kakaoID']
+        info.lineID = data['data']['lineID']
+        info.address = data['data']['address']
+        info.latitude = data['data']['latitude']
+        info.hardness = data['data']['hardness']
+        info.save()
         
-        # talks = data['data']['talkList']
-        # for talk in talks:
-        #     Talk.objects.update(
-        #         name=Profile.objects.get(id=id),
-        #         talk_type=talk['talk_type'],
-        #         talk_name=talk['talk_name'],
-        #         talk_age=talk['talk_age'],
-        #         deviceID=talk['deviceID'])   
+        talks = data['data']['talkList']
+
+        for talk in talks:
+            print(talk)
+            if 'id' in talk:
+                talkID = talk['id']
+                talk_get = Talk.objects.get(id=talkID)
+                talk_get.talk_type = talk['talk_type']
+                talk_get.talk_name = talk['talk_name']
+                talk_get.talk_age = talk['talk_age']
+                talk_get.deviceID = talk['deviceID']
+                talk_get.save()
+            else:
+                Talk.objects.create(
+                    name=Profile.objects.get(id=id),
+                    talk_type=talk['talk_type'],
+                    talk_name=talk['talk_name'],
+                    talk_age=talk['talk_age'],
+                    deviceID=talk['deviceID'])   
+            
         response = HttpResponse('update success')
         response["Access-Control-Allow-Origin"] = "*"
         response["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
