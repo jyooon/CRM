@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
-# from user_list.models import Profile
-# Create your models here.
+from model_utils.fields import StatusField
+from model_utils import Choices
 
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -26,6 +26,8 @@ class Info(models.Model):
     address = models.CharField(max_length=20, null=False, blank=False)
     latitude = models.FloatField(null=False, blank=False)
     hardness = models.FloatField(null=False, blank=False)
+    STATUS_CHOICES = Choices('True', 'False')
+    status = StatusField(choices_name='STATUS_CHOICES')
     class Meta:
         ordering = ('-name',)
     

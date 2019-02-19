@@ -8,18 +8,18 @@ import json
 # Create your views here.
 @csrf_exempt
 def reserve_list(request):
-    
-    if request.method == 'POST':
-        
-        data = json.loads(request.body)
-        
-        me = Profile.objects.get(user_name='park')
-        booker = data["booker"]
-        manager = data["manager"]
-        start_time = data["start_time"]
-        end_time = data["end_time"]
-        cost = data["cost"]
-        memo = data["memo"]
+    if request.method == 'POST': 
+        data = json.loads(request.body)    
+        # id 는 profile 아이디
+        id = data['data']['id']
+
+        me = Profile.objects.get(id=id)
+        booker = data['data']["booker"]
+        manager = data['data']["manager"]
+        start_time = data['data']["start_time"]
+        end_time = data['data']["end_time"]
+        cost = data['data']["cost"]
+        memo = data['data']["memo"]
 
         Reserve.objects.create(name=me, booker=booker, manager=manager, start_time=start_time, end_time=end_time, cost=cost, memo=memo)
         
@@ -31,3 +31,23 @@ def reserve_list(request):
         return response
 
 
+@csrf_exempt
+def deleteReserve(request):
+    if request.method == 'DELETE':
+        data = json.loads(request.body)
+        # 삭제할 예약의 아이디
+        id = data['data']['id']
+        Reserve.objects.filter(id=id).delete()
+        
+        response = HttpResponse('delete success')
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, DELETE, OPTIONS"
+        response["Access-Control-Max-Age"] = "1000"
+        response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+        return response
+
+@csrf_exempt
+def updateReserve(request):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        # 

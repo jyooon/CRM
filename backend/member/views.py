@@ -154,3 +154,16 @@ def updateInfo(request):
         response["Access-Control-Max-Age"] = "1000"
         response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
         return response
+
+
+@csrf_exempt
+def updateStatus(request):
+    if request.method == 'PUT' :
+        data = json.loads(request.body)
+
+        #data 에 오는건 Info id 와 status
+        id = data['data']['id']
+
+        info = Info.objects.get(id=id)
+        info.status = data['data']['status']
+        info.save()
