@@ -14,5 +14,6 @@ urlpatterns = [
     url("^auth/talk_info/", include('talk_info.urls')),
     url("^auth/public_message/", include('public_message.urls')),
     url("^auth/public_message_get/", include('public_message.urls')),
-    url("member/", include('member.urls'))
+    url("member/", include('member.urls')),
+    url("scheduler/", include('scheduler.urls'))
 ]

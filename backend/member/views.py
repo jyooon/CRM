@@ -162,8 +162,14 @@ def updateStatus(request):
         data = json.loads(request.body)
 
         #data 에 오는건 Info id 와 status
-        id = data['data']['id']
+        id = data['id']
 
         info = Info.objects.get(id=id)
-        info.status = data['data']['status']
+        info.status = data['status']
         info.save()
+        response = HttpResponse('success')
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
+        response["Access-Control-Max-Age"] = "1000"
+        response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+        return response
