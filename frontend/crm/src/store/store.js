@@ -58,6 +58,26 @@ export const store = new Vuex.Store({
         ],
         state: false
       }
+    ],
+    schedulerData: [
+      {
+        'AppointmentId': 1,
+        'Booker': '김나나',
+        'Name': '가가가',
+        'StartDate': '2019-02-20T07:30:00',
+        'EndDate': '2019-02-20T08:00:00',
+        'Memo': '밥먹기',
+        'Cost': 100
+      },
+      {
+        'AppointmentId': 2,
+        'Booker': '김나나',
+        'Name': '가가가',
+        'StartDate': '2019-02-20T08:30:00',
+        'EndDate': '2019-02-20T09:00:00',
+        'Memo': '약속잡기',
+        'Cost': 50
+      }
     ]
   },
   getters: {
@@ -97,6 +117,9 @@ export const store = new Vuex.Store({
     },
     getTalkInputForm: (state) => {
       return state.talkInputForm
+    },
+    getSchedulerData: (state) => {
+      return state.schedulerData
     }
   },
   mutations: {
@@ -117,7 +140,7 @@ export const store = new Vuex.Store({
     changeState: (state, payload) => {
       let member = state.members.find(i => i.id === payload)
       member.state = !member.state
-      console.log(state.members)
+      // console.log(state.members)
     },
     memberFormState: (state) => {
       state.memberFormState = true
@@ -133,6 +156,7 @@ export const store = new Vuex.Store({
       state.reviseState.state = true
       state.reviseState.id = payload
       state.memberInputForm = state.members.find(i => i.id === state.reviseState.id)
+      console.log('revise', state.members.find(i => i.id === state.reviseState.id).state)
     },
     formCancle: (state) => {
       state.memberFormState = false
@@ -172,9 +196,40 @@ export const store = new Vuex.Store({
       })
       state.talkFormState = false
       state.talkInputForm = {talk_type: '', talk_name: '', talk_age: 0, deviceID: ''}
+    },
+    addScheduler: (state, payload) => {
+      state.schedulerData = state.schedulerData.concat(payload)
     }
   },
   actions: {
+    addSchedule: (context, payload) => {
+      return axios
+        .post('scheduler/add/',
+          {
+            data: payload
+          })
+        .then(res => {
+          if (res.data === 'success') {
+            console.log('success add')
+          }
+        })
+    },
+    changeState: ({ state }, payload) => {
+      let member = state.members.find(i => i.id === payload)
+      console.log('action1', member.state)
+      return axios
+        .put('member/statusupdate/',
+          {
+            id: payload,
+            status: !member.state
+          })
+        .then(res => {
+          if (res.data === 'success') {
+            member.state = !member.state
+            console.log('action2', member.state)
+          }
+        })
+    },
     getCommonMessage: (context) => {
       return axios
         .get('/auth/public_message/')

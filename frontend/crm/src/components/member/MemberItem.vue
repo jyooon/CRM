@@ -8,17 +8,18 @@
                     </div>
                 </div>
                 <div class="name_wrap">
-                    <div class="name">{{name}}</div>
-                        <div class="button r" id="button-1">
-                            <input
-                              type="checkbox"
-                              class="checkbox"
-                              v-on:click="handleToggle(index)"
-                              :checked = !state>
-                            <div class="knobs"></div>
-                            <div class="layer"></div>
-                        </div>
-                        <h5 class="revise">{{getReviseState.id===index?'수정중':''}}</h5>
+                    <div class="name" v-on:click="handleRevise">{{name}}</div>
+                    <h5 class="revise">{{getReviseState.id===index?'수정중':''}}</h5>
+                    <div class="button r" id="button-1">
+                        <input
+                        type="checkbox"
+                        class="checkbox"
+                        v-on:click="handleToggle(index)"
+                        :checked = sstate
+                        />
+                        <div class="knobs"></div>
+                        <div class="layer"></div>
+                    </div>
                     <div class="desc">{{age}}살, {{sex==='F'?'여':'남'}}, {{address}}</div>
                 </div>
                 <div class="icon_more" :id="'more_'+index" >
@@ -27,8 +28,7 @@
                     </span>
                     <div class="more_menu" >
                         <ul>
-                            <li v-on:click="handleRevise">수정</li>
-                            <li v-on:click="handleDelete">삭제</li>
+                            <li v-on:click="handleToggle(index)">삭제</li>
                         </ul>
                     </div>
                 </div>
@@ -65,12 +65,17 @@ export default {
   computed: {
     ...mapGetters([
       'getReviseState',
-      'getMemberFormState'
-    ])
+      'getMemberFormState',
+      'getMember'
+    ]),
+    sstate () {
+      let member = this.getMember(this.index)
+      return member.state
+    }
   },
   methods: {
     handleToggle (id) {
-      this.$store.commit('changeState', id)
+      this.$store.dispatch('changeState', id)
     },
     handleRevise () {
       // console.log(this.$store.getters.getMember(this.index))

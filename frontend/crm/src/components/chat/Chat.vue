@@ -368,7 +368,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col col-6 schedule_info">스케줄표</div>
+                                <div class="col col-6 schedule_info">
+                                    <Schedule></Schedule>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -379,12 +381,12 @@
 </template>
 
 <script>
+import Schedule from './Schedule'
+
 export default {
   name: 'Chat',
-  data () {
-    return {
-    //   msg2: 'hi!'
-    }
+  components: {
+    'Schedule': Schedule
   }
 }
 </script>

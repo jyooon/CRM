@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "devextreme": "^18.2.6",
+    "devextreme-vue": "^18.2.6",
     "npm": "^6.7.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

@@ -107,7 +107,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getMembers').then(() => console.log(this.getMembers))
+    this.$store.dispatch('getMembers').then()
   }
 }
 </script>
