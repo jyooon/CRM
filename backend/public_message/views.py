@@ -26,6 +26,9 @@ def public_message_list(request):
         msg8 = data[7]['text']
         msg9 = data[8]['text']
         msg10 = data[9]['text']
+        # img1 = data[10]['img']
+        # img2 = data[11]['img']
+
 
         public_message = Public_Message.objects.get(id='1')
         public_message.msg1 = msg1
@@ -38,6 +41,8 @@ def public_message_list(request):
         public_message.msg8 = msg8
         public_message.msg9 = msg9
         public_message.msg10 = msg10
+        # public_message.img1 = img1
+        # public_message.img2 = img2
         public_message.save()
         
         response = HttpResponse('success')
@@ -64,6 +69,8 @@ def public_message_list(request):
                 {"id": 8, "text": message.msg8},
                 {"id": 9, "text": message.msg9},
                 {"id": 10, "text": message.msg10},
+                # {"id": 11, "img": message.img1},
+                # {"id": 12, "img": message.img2},
             ]
         }
         

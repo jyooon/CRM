@@ -9,6 +9,7 @@ import pprint
 from django.contrib.auth.models import User
 from user_info.models import *
 from talk_info.models import *
+from message_info.models import *
 @csrf_exempt
 def getMembers(request):
     if request.method == 'GET':
@@ -84,6 +85,39 @@ def addMember(request):
                 talk_name=talk['talk_name'],
                 talk_age=talk['talk_age'],
                 deviceID=talk['deviceID'])    
+
+
+        # data = json.loads(request.body)
+        
+        me = Profile.objects.get(id=id)
+        msg1 = data['msg'][0]['text']
+        msg2 = data['msg'][1]['text']
+        msg3 = data['msg'][2]['text']
+        msg4 = data['msg'][3]['text']
+        msg5 = data['msg'][4]['text']
+        msg6 = data['msg'][5]['text']
+        msg7 = data['msg'][6]['text']
+        msg8 = data['msg'][7]['text']
+        msg9 = data['msg'][8]['text']
+        msg10 = data['msg'][9]['text']
+        # img1 = data['msg'][10]['img']
+        # img2 = data['msg'][11]['img']
+
+        Message.objects.create(
+            name=me, 
+            msg1=msg1, 
+            msg2=msg2, 
+            msg3=msg3, 
+            msg4=msg4, 
+            msg5=msg5, 
+            msg6=msg6, 
+            msg7=msg7, 
+            msg8=msg8, 
+            msg9=msg9, 
+            msg10=msg10, 
+            # img1=img1, 
+            # img2=img2
+            )
 
         response = HttpResponse('add success')
         response["Access-Control-Allow-Origin"] = "*"

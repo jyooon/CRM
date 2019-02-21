@@ -8,17 +8,17 @@ from user_info.models import Profile
 
 class Message(models.Model):
     name = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    msg1 = models.TextField(max_length=100,null=False, blank=False)
-    msg2 = models.TextField(max_length=100,null=False, blank=False)
-    msg3 = models.TextField(max_length=100,null=False, blank=False)
-    msg4 = models.TextField(max_length=100,null=False, blank=False)
-    msg5 = models.TextField(max_length=100,null=False, blank=False)
-    msg6 = models.TextField(max_length=100,null=False, blank=False)
-    msg7 = models.TextField(max_length=100,null=False, blank=False)
-    msg8 = models.TextField(max_length=100,null=False, blank=False)
-    msg9 = models.TextField(max_length=100,null=False, blank=False)
-    msg10 = models.TextField(max_length=100,null=False, blank=False)
-    
+    msg1 = models.TextField(max_length=100,null=True, blank=True)
+    msg2 = models.TextField(max_length=100,null=True, blank=True)
+    msg3 = models.TextField(max_length=100,null=True, blank=True)
+    msg4 = models.TextField(max_length=100,null=True, blank=True)
+    msg5 = models.TextField(max_length=100,null=True, blank=True)
+    msg6 = models.TextField(max_length=100,null=True, blank=True)
+    msg7 = models.TextField(max_length=100,null=True, blank=True)
+    msg8 = models.TextField(max_length=100,null=True, blank=True)
+    msg9 = models.TextField(max_length=100,null=True, blank=True)
+    msg10 = models.TextField(max_length=100,null=True, blank=True)
+    img1 = models.ImageField(blank=True)
+    img2 = models.ImageField(blank=True)
     class Meta:
         ordering = ('-name',)
-

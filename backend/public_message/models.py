@@ -17,7 +17,8 @@ class Public_Message(models.Model):
     msg8 = models.TextField(max_length=100,null=False, blank=False)
     msg9 = models.TextField(max_length=100,null=False, blank=False)
     msg10 = models.TextField(max_length=100,null=False, blank=False)
-    
+    # img1 = models.ImageField(blank=True)
+    # img2 = models.ImageField(blank=True)
     # class Meta:
     #     ordering = ('-name',)
     
