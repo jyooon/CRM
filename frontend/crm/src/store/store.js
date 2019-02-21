@@ -138,9 +138,10 @@ export const store = new Vuex.Store({
       state.loginState = false
     },
     changeState: (state, payload) => {
+      console.log(state.members)
       let member = state.members.find(i => i.id === payload)
       member.state = !member.state
-      // console.log(state.members)
+      console.log(member.state)
     },
     memberFormState: (state) => {
       state.memberFormState = true
@@ -216,7 +217,7 @@ export const store = new Vuex.Store({
     // },
     addSchedule: (context, payload) => {
       return axios
-        .post('scheduler/add/',
+        .post('/scheduler/add/',
           {
             data: payload
           })
@@ -228,9 +229,9 @@ export const store = new Vuex.Store({
     },
     changeState: ({ state }, payload) => {
       let member = state.members.find(i => i.id === payload)
-      console.log('action1', member.state)
+      // console.log('action1', state.members)
       return axios
-        .put('member/statusupdate/',
+        .put('/member/statusupdate/',
           {
             id: payload,
             status: !member.state
@@ -239,26 +240,30 @@ export const store = new Vuex.Store({
           if (res.data === 'success') {
             member.state = !member.state
             console.log('action2', member.state)
+            // context.commit('changeState', payload)
           }
+        })
+        .catch(err => {
+          console.log(err)
         })
     },
     getCommonMessage: (context) => {
       return axios
-        .get('/auth/public_message/')
+        .get('auth/public_message/')
         .then((res) => {
           return context.commit('loadMessageToServer', res.data)
         })
     },
     postCommonMessage: (context, payload) => {
       return axios
-        .post('/auth/public_message/', payload)
+        .post('auth/public_message/', payload)
         .then((data) => {
           console.log(data)
         })
     },
     login: (context, payload) => {
       return axios
-        .post('/auth/login/', {
+        .post('auth/login/', {
           username: payload.username,
           password: payload.password
         })
@@ -268,7 +273,7 @@ export const store = new Vuex.Store({
     },
     getMembers: (context) => {
       return axios
-        .get('/member/all', {
+        .get('member/all/', {
           params: {id: sessionStorage.getItem('id')}
         })
         .then((data) => {
@@ -282,14 +287,14 @@ export const store = new Vuex.Store({
       sendJson.id = sessionStorage.getItem('id')
       sendJson.data = state.memberInputForm
       return axios
-        .post('/member/add', sendJson)
+        .post('member/add/', sendJson)
         .then(data => {
           console.log(data.data)
         })
     },
     deleteMember: (context, payload) => {
       return axios
-        .delete('/member/delete', {
+        .delete('member/delete/', {
           headers: {'Content-Type': 'application/json'},
           data: {
             id: sessionStorage.getItem('id'),
@@ -299,7 +304,7 @@ export const store = new Vuex.Store({
     },
     updateInfo: ({ state }) => {
       return axios
-        .put('/member/update', {
+        .put('member/update/', {
           id: sessionStorage.getItem('id'),
           data: state.memberInputForm
         })

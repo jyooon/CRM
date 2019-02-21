@@ -15,7 +15,7 @@
                         type="checkbox"
                         class="checkbox"
                         v-on:click="handleToggle(index)"
-                        :checked = sstate
+                        :checked = !sstate
                         />
                         <div class="knobs"></div>
                         <div class="layer"></div>
@@ -28,7 +28,7 @@
                     </span>
                     <div class="more_menu" >
                         <ul>
-                            <li v-on:click="handleToggle(index)">삭제</li>
+                            <li v-on:click="handleDelete">삭제</li>
                         </ul>
                     </div>
                 </div>
@@ -76,6 +76,7 @@ export default {
   methods: {
     handleToggle (id) {
       this.$store.dispatch('changeState', id)
+      // this.$store.commit('changeState', id)
     },
     handleRevise () {
       // console.log(this.$store.getters.getMember(this.index))

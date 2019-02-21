@@ -23,6 +23,8 @@ def getMembers(request):
                 member = model_to_dict(Info.objects.get(name=person))
                 member['id'] = person.id
                 member['name'] = person.user_name
+                member['state'] = member['status']
+                del member['status']
                 talk_infos = Talk.objects.filter(name=person)
                 
                 talk_json = []
