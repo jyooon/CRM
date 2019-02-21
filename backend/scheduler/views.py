@@ -5,24 +5,23 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import pprint
 # Create your views here.
 @csrf_exempt
 def addSchedule(request):
     if request.method == 'POST': 
         data = json.loads(request.body)    
         # id 는 profile 아이디
-        print(data)
-        id = data['data']['id']
+        pprint.pprint(data)
+        # id = data['data']['id']
 
-        me = Profile.objects.get(id=id)
-        booker = data['data']["booker"]
-        # manager = data['data']["manager"]
-        start_time = data['data']["start_time"]
-        end_time = data['data']["end_time"]
-        cost = data['data']["cost"]
-        memo = data['data']["memo"]
+        me = Profile.objects.get(id=1)
+        booker = data['data']["Booker"]
+        start_time = data['data']["StartDate"]
+        end_time = data['data']["endDate"]
+        cost = data['data']["price"]
+        memo = data['data']["Memo"]
 
-        # Reserve.objects.create(name=me, booker=booker, manager=manager, start_time=start_time, end_time=end_time, cost=cost, memo=memo)
         Reserve.objects.create(name=me, booker=booker, start_time=start_time, end_time=end_time, cost=cost, memo=memo)
         
         response = HttpResponse('success')
@@ -31,13 +30,15 @@ def addSchedule(request):
         response["Access-Control-Max-Age"] = "1000"
         response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
         return response
+
+
 # @csrf_exempt
 # def deleteSchedule(request):
 #     if request.method == 'DELETE':
 #         data = json.loads(request.body)
 #         # 삭제할 예약의 아이디
-#         id = data['data']['id']
-#         Reserve.objects.filter(id=id).delete()
+#         # id = data['data']['id']
+#         Reserve.objects.filter(id=5).delete()
         
 #         response = HttpResponse('delete success')
 #         response["Access-Control-Allow-Origin"] = "*"
