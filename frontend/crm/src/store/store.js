@@ -202,6 +202,18 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    // deleteSchedule: (context, payload) => {
+    //   return axios
+    //     .post('scheduler/delete/',
+    //       {
+    //         data: payload
+    //       })
+    //     .then(res => {
+    //       if (res.data === 'success') {
+    //         console.log('success delete')
+    //       }
+    //     })
+    // },
     addSchedule: (context, payload) => {
       return axios
         .post('scheduler/add/',

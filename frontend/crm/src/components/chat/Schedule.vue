@@ -46,7 +46,7 @@ export default {
       console.log('click!!')
     },
     addData (e) {
-      // console.log(e.appointmentData)
+      console.log(e.appointmentData)
       this.$store.dispatch('addSchedule', e.appointmentData)
     },
     deleteData: (e) => {
@@ -63,7 +63,7 @@ export default {
         endDayHour: 20,
         textExpr: 'Memo',
         startDateExpr: 'StartDate',
-        endDateExpr: 'EndDate',
+        endDateExpr: 'endDate',
         descriptionExpr: 'Notes',
         height: 700,
         editing: {
@@ -78,14 +78,6 @@ export default {
           var form = data.form
           form.option('items', [
             {
-              dataField: 'Memo',
-              editorType: 'dxTextBox',
-              editorOptions: {
-                width: '100%',
-                type: 'required'
-              }
-            },
-            {
               dataField: 'Booker',
               editorType: 'dxTextBox',
               editorOptions: {
@@ -94,7 +86,7 @@ export default {
               }
             },
             {
-              dataField: 'startDate',
+              dataField: 'StartDate',
               editorType: 'dxDateBox',
               editorOptions: {
                 width: '100%',
@@ -102,7 +94,7 @@ export default {
               }
             },
             {
-              name: 'endDate',
+              name: 'EndDate',
               dataField: 'endDate',
               editorType: 'dxDateBox',
               editorOptions: {
@@ -118,6 +110,14 @@ export default {
                 itemTemplate: (itemData) => {
                   return itemData
                 }
+              }
+            },
+            {
+              dataField: 'Memo',
+              editorType: 'dxTextBox',
+              editorOptions: {
+                width: '100%',
+                type: 'required'
               }
             }
           ])
