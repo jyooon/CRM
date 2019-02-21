@@ -27,7 +27,7 @@
                 <h5>톡 종류를 선택하거나 톡 종류 추가를 누르면 활성화됩니다.</h5>
             </div>
         </div>
-        <my-message v-show="getMyMessageState"></my-message>
+        <my-message v-if="getMyMessageState"></my-message>
     </div>
 </template>
 

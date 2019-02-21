@@ -15,86 +15,11 @@
                 <div class="message_list">
                     <div class="text_setup">
                         <ul>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>1</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>2</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>3</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>4</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>5</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>6</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>7</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>8</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>9</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="memo">
-                                    <div class="shortcut">
-                                        <span class="ctrl_key">Ctrl +</span> <div class="ctrl_number"><span>0</span></div>
-                                    </div>
-                                    <textarea class="memo_txt">안녕하세요, 반갑습니다.</textarea>
-                                </div>
-                            </li>
+                            <Item
+                                v-for="(item) in getMyMessages"
+                                v-bind:item="item"
+                                v-bind:key="item.id"
+                            ></Item>
                         </ul>
                     </div>
                     <div class="text_setup">
@@ -146,7 +71,7 @@
             </div>
 
             <div class="pop_footer txt_right">
-                <button class="btn purple btn_lg">저장하기</button>
+                <button class="btn purple btn_lg" @click='handleStore'>저장하기</button>
             </div>
 
         </div>
@@ -154,11 +79,34 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import Item from './MyMessageItem'
+
 export default {
   name: 'MyMessage',
+  computed: {
+    ...mapGetters([
+      'getMyMessages',
+      'getReviseState'
+    ])
+  },
+  components: {
+    'Item': Item
+  },
   methods: {
     handleCancle () {
       this.$store.commit('cancleMyMessage')
+    },
+    handleStore () {
+      this.$store.dispatch('storeMyMessage')
+      if (this.getReviseState.state) {
+        this.$store.dispatch('storeMyMessage')
+      }
+    }
+  },
+  mounted () {
+    if (this.getReviseState.state) {
+      this.$store.dispatch('getMyMessage', this.getReviseState.id)
     }
   }
 }

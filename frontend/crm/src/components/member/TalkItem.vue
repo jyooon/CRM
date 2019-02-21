@@ -38,7 +38,7 @@ export default {
   computed: {
     reviseState () {
       let reviseID = this.getTalkInputForm.id
-      console.log(reviseID)
+      // console.log(reviseID)
       if (reviseID === undefined) return ''
       if (reviseID === this.id) return '수정중'
     },

@@ -1,4 +1,4 @@
-<template>  
+<template>
   <dx-scheduler
     :data-source='getSchedulerData'
     :onAppointmentAdded='addData'

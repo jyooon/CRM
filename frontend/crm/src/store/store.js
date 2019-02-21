@@ -14,6 +14,18 @@ export const store = new Vuex.Store({
     commonMessages: [],
     memberInputForm: {name: '', age: 0, sex: '', telegramID: '', kakaoID: '', lineID: '', address: '', latitude: 0, hardness: 0, talkList: []},
     talkInputForm: {talk_type: '', talk_name: '', talk_age: 0, deviceID: ''},
+    myMessage: [
+      // {id: 1, text: '1'},
+      // {id: 2, text: '2'},
+      // {id: 3, text: '3'},
+      // {id: 4, text: '4'},
+      // {id: 5, text: '5'},
+      // {id: 6, text: '6'},
+      // {id: 7, text: '7'},
+      // {id: 8, text: '8'},
+      // {id: 9, text: '9'},
+      // {id: 10, text: '10'}
+    ],
     members: [
       {
         id: 100,
@@ -81,6 +93,9 @@ export const store = new Vuex.Store({
     ]
   },
   getters: {
+    getMyMessages: (state) => {
+      return state.myMessage
+    },
     getMemberInputForm: (state) => {
       return state.memberInputForm
     },
@@ -123,6 +138,10 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
+    updateMyMessage: (state, payload) => {
+      let msg = state.myMessage.find(i => i.id === payload.id)
+      msg.text = payload.text
+    },
     updateMessage: (state, payload) => {
       state.commonMessages[payload.index - 1].text = payload.text
     },
@@ -138,10 +157,10 @@ export const store = new Vuex.Store({
       state.loginState = false
     },
     changeState: (state, payload) => {
-      console.log(state.members)
+      // console.log(state.members)
       let member = state.members.find(i => i.id === payload)
       member.state = !member.state
-      console.log(member.state)
+      // console.log(member.state)
     },
     memberFormState: (state) => {
       state.memberFormState = true
@@ -157,7 +176,7 @@ export const store = new Vuex.Store({
       state.reviseState.state = true
       state.reviseState.id = payload
       state.memberInputForm = state.members.find(i => i.id === state.reviseState.id)
-      console.log('revise', state.members.find(i => i.id === state.reviseState.id).state)
+      // console.log('revise', state.members.find(i => i.id === state.reviseState.id).state)
     },
     formCancle: (state) => {
       state.memberFormState = false
@@ -165,6 +184,7 @@ export const store = new Vuex.Store({
       state.reviseState.state = false
       state.reviseState.id = ''
       state.memberInputForm = {name: '', age: 0, sex: '', telegramID: '', kakaoID: '', lineID: '', address: '', latitude: 0, hardness: 0, talkList: []}
+      state.myMessage = []
     },
     deleteMember: (state, payload) => {
       state.members.some((member, index) => {
@@ -286,6 +306,8 @@ export const store = new Vuex.Store({
       let sendJson = {}
       sendJson.id = sessionStorage.getItem('id')
       sendJson.data = state.memberInputForm
+      sendJson.msg = state.myMessage
+      console.log(sendJson)
       return axios
         .post('member/add/', sendJson)
         .then(data => {
@@ -307,6 +329,33 @@ export const store = new Vuex.Store({
         .put('member/update/', {
           id: sessionStorage.getItem('id'),
           data: state.memberInputForm
+        })
+    },
+    storeMyMessage: ({ state }, payload) => {
+      return axios
+        .post('message_info/create/', {
+          id: payload,
+          data: state.myMessage
+        })
+        .then(data => {
+          console.log(data.data)
+        })
+    },
+    getMyMessage: ({ state }, payload) => {
+      return axios
+        .get('message_info/get/', {
+          params: {id: payload}
+        })
+        .then((data) => {
+          console.log(data.data)
+          state.myMessage = data.data.Messages
+        })
+    },
+    getMyMessageInit: ({ state }) => {
+      return axios
+        .get('auth/public_message/')
+        .then((res) => {
+          state.myMessage = res.data.commonMessages
         })
     }
   }

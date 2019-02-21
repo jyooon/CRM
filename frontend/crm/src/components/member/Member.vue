@@ -70,7 +70,8 @@ export default {
       'getTalkFormState',
       'getMyMessageState',
       'getReviseState',
-      'getMemberInputForm'
+      'getMemberInputForm',
+      'getMyMessages'
     ])
   },
   components: {
@@ -81,7 +82,10 @@ export default {
   methods: {
     addMember () {
       if (this.getMemberFormState) alert('작성취소를 누르고 다시 시도하세요')
-      else this.$store.commit('memberFormState')
+      else {
+        this.$store.commit('memberFormState')
+        this.$store.dispatch('getMyMessageInit')
+      }
     },
     btnCancle () {
       this.$store.commit('formCancle')
