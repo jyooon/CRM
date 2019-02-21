@@ -6,5 +6,5 @@ urlpatterns = [
     url("^update", views.updateInfo, name="updateInfo"),
     url("^add", views.addMember, name="addMember"),
     url("^delete", views.deleteMember, name="deleteMember"),
-    url("^updatestatus", views.updateStatus, name="updateStatus"),
+    url("^statusupdate", views.updateStatus, name="updateStatus"),
 ]

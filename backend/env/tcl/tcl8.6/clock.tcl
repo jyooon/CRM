@@ -125,7 +125,7 @@ proc ::tcl::clock::Initialize {} {
 	    Sun Mon Tue Wed Thu Fri Sat
 	}
 	DAYS_OF_WEEK_FULL	{
-	    Sunday Monday Tuesday Wednesday Thursday Friday Saturday
+	    일 월 화 수 목 금 토
 	}
 	GREGORIAN_CHANGE_DATE	2299161
 	LOCALE_DATE_FORMAT {%m/%d/%Y}
