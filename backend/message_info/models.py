@@ -20,5 +20,5 @@ class Message(models.Model):
     msg10 = models.TextField(max_length=100,null=True, blank=True)
     img1 = models.ImageField(blank=True)
     img2 = models.ImageField(blank=True)
-    class Meta:
-        ordering = ('-name',)
+    # class Meta:
+    #     ordering = ('-name',)

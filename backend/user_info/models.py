@@ -10,8 +10,8 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_name = models.TextField(max_length=20, null=True, blank=False) # 관리자 이름
     
-    class Meta:
-        ordering = ('-user_name',)
+    # class Meta:
+    #     ordering = ('-user_name',)
 
     def __str__(self):
         return self.user_name
@@ -28,8 +28,8 @@ class Info(models.Model):
     hardness = models.FloatField(null=False, blank=False)
     STATUS_CHOICES = Choices('True', 'False')
     status = StatusField(choices_name='STATUS_CHOICES')
-    class Meta:
-        ordering = ('-name',)
+    # class Meta:
+    #     ordering = ('-name',)
     
     
 

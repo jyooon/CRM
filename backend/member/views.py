@@ -183,7 +183,26 @@ def updateInfo(request):
                     talk_name=talk['talk_name'],
                     talk_age=talk['talk_age'],
                     deviceID=talk['deviceID'])   
-            
+        
+
+        # img1 = data['msg'][10]['img']
+        # img2 = data['msg'][11]['img']
+
+        # 디비 초기화하고나서는 -10 없애기!!!!!!!!!!!!!!!!!!!!!!!!
+        # msg_get = Message.objects.get(id=id-10)
+        
+        # msg_get.msg1 = data['msg'][0]['text']
+        # msg_get.msg2 = data['msg'][1]['text']
+        # msg_get.msg3 = data['msg'][2]['text']
+        # msg_get.msg4 = data['msg'][3]['text']
+        # msg_get.msg5 = data['msg'][4]['text']
+        # msg_get.msg6 = data['msg'][5]['text']
+        # msg_get.msg7 = data['msg'][6]['text']
+        # msg_get.msg8 = data['msg'][7]['text']
+        # msg_get.msg9 = data['msg'][8]['text']
+        # msg_get.msg10 = data['msg'][9]['text']
+        # msg_get.save()
+
         response = HttpResponse('update success')
         response["Access-Control-Allow-Origin"] = "*"
         response["Access-Control-Allow-Methods"] = "GET, POST, PUT, OPTIONS"
