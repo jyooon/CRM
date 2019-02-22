@@ -29,31 +29,29 @@
                                     <div class="shortcut">
                                         <span class="ctrl_key">Alt +</span> <div class="alt_number"><span>1</span></div>
                                     </div>
-                                    <form action="" method="post" enctype="multipart/form-data" name="">
-                                        <input type="file" name="FileName">
-                                    </form>
-                                    <div class="memo_img">
+                                    <input type="file" @change="onFileChanged">
+                                    <button @click="onUpload">Upload!</button>
+                                    <!-- <div class="memo_img">
                                         <img src="../../images/sample02.jpg">
-                                    </div>
+                                    </div> -->
                                 </div>
                             </li>
                             <li>
                                 <div class="memo">
                                     <div class="shortcut">
-                                        <span class="ctrl_key">Alt +</span> <div class="alt_number"><span>1</span></div>
+                                        <span class="ctrl_key">Alt +</span> <div class="alt_number"><span>2</span></div>
                                     </div>
-                                    <form action="" method="post" enctype="multipart/form-data" name="">
-                                        <input type="file" name="FileName">
-                                    </form>
-                                    <div class="memo_img">
+                                    <!-- <input type="file" @change="onFileChanged">
+                                    <button @click="onUpload">Upload!</button> -->
+                                    <!-- <div class="memo_img">
                                         <img src="../../images/sample02.jpg">
-                                    </div>
+                                    </div> -->
                                 </div>
                             </li>
                             <li>
                                 <div class="memo">
                                     <div class="shortcut">
-                                        <span class="ctrl_key">Alt +</span> <div class="alt_number"><span>1</span></div>
+                                        <span class="ctrl_key">Alt +</span> <div class="alt_number"><span>3</span></div>
                                     </div>
                                     <form action="" method="post" enctype="multipart/form-data" name="">
                                         <input type="file" name="FileName">
@@ -81,6 +79,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Item from './MyMessageItem'
+import axios from 'axios'
 
 export default {
   name: 'MyMessage',
@@ -93,15 +92,25 @@ export default {
   components: {
     'Item': Item
   },
+  data() {
+    return {
+      selectedFile: null
+    }
+  },
   methods: {
     handleCancle () {
       this.$store.commit('cancleMyMessage')
     },
     handleStore () {
-      this.$store.dispatch('storeMyMessage')
       if (this.getReviseState.state) {
         this.$store.dispatch('storeMyMessage')
       }
+    },
+    onFileChanged (event) {
+      this.selectedFile = event.target.files[0]
+    },
+    onUpload () {
+      // upload file
     }
   },
   mounted () {

@@ -329,6 +329,7 @@ export const store = new Vuex.Store({
         .put('member/update/', {
           id: sessionStorage.getItem('id'),
           data: state.memberInputForm
+          // msg: state.myMessage
         })
     },
     storeMyMessage: ({ state }, payload) => {
